@@ -1,0 +1,110 @@
+.blog-board-container {
+    text-align: center;
+    padding: 50px;
+    position: relative;
+  }
+  
+  .back-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .back-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  .input-container {
+    margin-top: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .post-input {
+    width: 60%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: none;
+    min-height: 100px; /* Set a minimum height for better visibility */
+  }
+  
+  .add-post-button {
+    margin-left: 10px;
+    margin-bottom:  40px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .add-post-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .submit-post-button {
+    margin-top: 10px; /* Add margin for spacing */
+    padding: 10px 20px;
+    background-color: #28a745; /* Green color for submit */
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .submit-post-button:hover {
+    background-color: #218838; /* Darker green for hover */
+  }
+  
+  .posts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .post-it-note {
+    background-color: #ffeb3b;
+    color: #333;
+    padding: 20px;
+    border-radius: 5px;
+    width: 200px;
+    height: 150px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Enable positioning for the date */
+    display: flex;
+    flex-direction: column; /* Allow stacking of items */
+    justify-content: center; /* Center the post text vertically */
+    align-items: center; /* Center the post text horizontally */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+  }
+  
+  .post-it-note .post-date {
+    position: absolute; /* Positioning the date in the corner */
+    top: 10px; /* Adjust the position from the top */
+    left: 10px; /* Adjust the position from the left */
+    font-weight: bold; /* Make the date text bold */
+  }
+  
+  .post-options {
+    margin-top: 10px; /* Space between textarea and options */
+  }
+  
+  .date-input {
+    margin-right: 10px; /* Space between date input and color input */
+  }
+  
+  .color-input {
+    padding: 5px; /* Padding for the color input */
+  }
+  
+  
