@@ -1,28 +1,29 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './BlogBoard.css'; // Import CSS file for styling
+import BlogPost from '../components/BlogPost'; // Import the BlogPost component
+import '../BlogBoard.css';
 
 const BlogBoard = () => {
-  const [posts, setPosts] = useState([]); // State to hold the list of posts
-  const [newPost, setNewPost] = useState(''); // State to hold the new post input
-  const [postDate, setPostDate] = useState(''); // State for the post date
-  const [postColor, setPostColor] = useState('#ffeb3b'); // State for the post color
-  const [isInputVisible, setInputVisible] = useState(false); // State to control the visibility of the text area
+  const [posts, setPosts] = useState([]);
+  const [newPost, setNewPost] = useState('');
+  const [postDate, setPostDate] = useState('');
+  const [postColor, setPostColor] = useState('#ffeb3b');
+  const [isInputVisible, setInputVisible] = useState(false);
 
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate('/'); // Navigate back to the Home page
+    navigate('/');
   };
 
   const handleAddPost = () => {
     if (newPost.trim() !== '' && postDate !== '') {
       const newPostEntry = { text: newPost, date: postDate, color: postColor };
-      setPosts([...posts, newPostEntry]); // Add the new post to the list
-      setNewPost(''); // Clear the input field
-      setPostDate(''); // Clear the date field
-      setPostColor('#ffeb3b'); // Reset the color to default
-      setInputVisible(false); // Hide the input after adding the post
+      setPosts([...posts, newPostEntry]);
+      setNewPost('');
+      setPostDate('');
+      setPostColor('#ffeb3b');
+      setInputVisible(false);
     }
   };
 
@@ -31,9 +32,7 @@ const BlogBoard = () => {
       <button className="back-button" onClick={goBack}>
         Back
       </button>
-
       <h1>Bulletin Board</h1>
-
       <button className="add-post-button" onClick={() => setInputVisible(!isInputVisible)}>
         Add Post
       </button>
@@ -47,7 +46,6 @@ const BlogBoard = () => {
             rows="4"
             className="post-input"
           />
-
           <div className="post-options">
             <input
               type="date"
@@ -62,21 +60,17 @@ const BlogBoard = () => {
               className="color-input"
             />
           </div>
-
           <button className="submit-post-button" onClick={handleAddPost}>
             Submit
           </button>
         </div>
       )}
-        <div className="posts-container">
-          {posts.map((post, index) => (
-            <div key={index} className="post-it-note" style={{ backgroundColor: post.color }}>
-              <div className="post-date">{post.date}</div> {/* Date in the top left corner */}
-              <p>{post.text}</p> {/* Centered post content */}
-            </div>
-          ))}
-        </div>
 
+      <div className="posts-container">
+        {posts.map((post, index) => (
+          <BlogPost key={index} post={post} /> // Use BlogPost component
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './Home'; // Import Home component
-import BlogBoard from './BlogBoard'; // Import BlogBoard component
+import BlogBoard from './pages/BlogBoard'; // Import BlogBoard component
 
 function App() {
   return (
