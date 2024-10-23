@@ -1,30 +1,32 @@
 import React, {useState} from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
-import Home from './Home';
+import Home from './pages/Home';
 import BlogBoard from './pages/BlogBoard';
 import BlogPostPage from './pages/BlogPostPage';
+import MainLayout from './layouts/MainLayout';
 
 function App() {
   const [posts, setPosts] = useState([]);
 
-  return (
-    <Router>
-      <ToastContainer />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route 
-          path="/blog-board" 
-          element={<BlogBoard posts={posts} setPosts={setPosts}/>} 
-        />
-        <Route 
-          path="/blog/:id" 
-          element={<BlogPostPage posts={posts} />} 
-        />
-      </Routes>
-    </Router>
-  );
+  
+  const router = createBrowserRouter(createRoutesFromElements(
+    <Route path="/" element={<MainLayout />}>
+      <Route index element={<Home />} />
+      <Route 
+        path="/blog-board" 
+        element={<BlogBoard posts={posts} setPosts={setPosts}/>} 
+      />
+      <Route 
+        path="/blog/:id" 
+        element={<BlogPostPage posts={posts} />} 
+      />
+    </Route>
+    )
+  )
+  return <RouterProvider router={router} />
+    
+
 }
 
 export default App;
