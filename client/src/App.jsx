@@ -8,7 +8,6 @@ import MainLayout from './layouts/MainLayout';
 
 function App() {
   const [posts, setPosts] = useState([]);
-
   
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
@@ -25,8 +24,6 @@ function App() {
     )
   )
   return <RouterProvider router={router} />
-    
-
 }
 
 export default App;
