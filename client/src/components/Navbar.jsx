@@ -35,7 +35,7 @@ export const Navbar = () => {
                   >Blog
                   </NavLink>
                 <NavLink
-                  to="/add-job"
+                  to="/login"
                   className={linkClass}
                   >Login
                   </NavLink>
