@@ -1,16 +1,25 @@
 // EVENT DATA MODEL
 const mongoose = require('mongoose');
+const { format } = require('date-fns')
 
 const eventSchema  = new mongoose.Schema({
-    name: {
+    id: {
+        type: Number,
+        required: true
+    },
+    title: {
         type: String,
         required: true
     },
-    textContent: {
+    text: {
         type: String,
         required: true
     },
-    link: {
+    date: {
+        type: String,
+        required: true
+    },
+    color: {
         type: String,
         required: false
     }
