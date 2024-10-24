@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
 
-const { logger } = require('./middleware/logger');
+const { logger, logEvents } = require('./middleware/logger');
 const errorHandler = require('./middleware/errorHandler');
 const corsOptions = require('./config/corsOptions');
 const connectDB = require('./config/dbConnection');
@@ -28,7 +28,7 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 
 app.use('/', require('./routes/root'));
 app.use('/events', require('./routes/eventRoutes'));
-app.use('/auth', require('./routes/authRoutes')); //for all things authetication for login /signup
+app.use('/auth', require('./routes/authRoutes')); // for all things authetication for login /signup
 
 // If reached, requested resource not found (or not implemented) - send Error 404
 app.all('*', (req, res) => {
