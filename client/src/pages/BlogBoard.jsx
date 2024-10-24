@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { json, useNavigate } from 'react-router-dom';
 import BlogPost from '../components/BlogPost'; 
 import { toast } from 'react-toastify';
 
@@ -9,8 +9,44 @@ const BlogBoard = ({posts, setPosts}) => {
   const [postDate, setPostDate] = useState('');
   const [postColor, setPostColor] = useState('#ffeb3b');
   const [isInputVisible, setInputVisible] = useState(false);
-  
+
   const navigate = useNavigate();
+
+  // GET request to server, update posts array on completion
+  useEffect(() => {
+    const getExistingPosts = async () => {
+      const requestOptions = {
+        method: 'GET',
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        }),
+      };
+  
+      try {
+        const response = await fetch('http://localhost:3500/events', requestOptions);
+        const data = await response.json();
+
+        if (!data.length) return;
+
+        for (let i = 0; i < data.length; i++) {
+          data[i] = { 
+            id: i,
+            title: data[i].title, 
+            text: data[i].text, 
+            date: data[i].date,
+            color: data[i].color 
+          };
+        }
+
+        setPosts(data);
+      }
+      catch (err) {
+        console.log(err);
+      }
+    };
+
+    getExistingPosts();
+  }, []);
 
   const goBack = () => {
     navigate('/');
@@ -35,9 +71,23 @@ const BlogBoard = ({posts, setPosts}) => {
       setPostDate('');
       setPostColor('#ffeb3b');
       setInputVisible(false);
+
+      sendPostToServer(newPostEntry);
     } else {
       toast.error('Please fill in all fields!');
     }
+  };
+
+  const sendPostToServer = (postData) => {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: postData.id, title: postData.title, text: postData.text, date: postData.date, color: postData.color })
+    };
+    
+    fetch('http://localhost:3500/events', requestOptions);
   };
 
   return (
