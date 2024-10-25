@@ -23,7 +23,7 @@ const BlogBoard = ({posts, setPosts}) => {
       };
   
       try {
-        const response = await fetch('http://localhost:3500/events', requestOptions);
+        const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, requestOptions);
         const data = await response.json();
 
         if (!data.length) return;
@@ -87,7 +87,7 @@ const BlogBoard = ({posts, setPosts}) => {
       body: JSON.stringify({ id: postData.id, title: postData.title, text: postData.text, date: postData.date, color: postData.color })
     };
     
-    fetch('http://localhost:3500/events', requestOptions);
+    fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, requestOptions);
   };
 
   return (
