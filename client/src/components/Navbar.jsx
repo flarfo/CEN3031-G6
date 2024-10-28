@@ -35,6 +35,11 @@ export const Navbar = () => {
                   >Blog
                   </NavLink>
                 <NavLink
+                  to="/poll-board"
+                  className={linkClass}
+                  >Polls
+                  </NavLink>
+                <NavLink
                   to="/login"
                   className={linkClass}
                   >Login

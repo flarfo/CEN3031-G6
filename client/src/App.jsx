@@ -6,9 +6,13 @@ import BlogPostPage from './pages/BlogPostPage';
 import MainLayout from './layouts/MainLayout';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp'
+import PollBoard from './pages/PollBoard'
+import PollPage from './pages/PollPage'
 
 function App() {
   const [posts, setPosts] = useState([]);
+
+  const [polls, setPolls] = useState([]);
   
   const router = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<MainLayout />}>
@@ -20,6 +24,14 @@ function App() {
       <Route 
         path="/blog/:id" 
         element={<BlogPostPage posts={posts} />} 
+      />
+      <Route 
+        path="/poll-board" 
+        element={<PollBoard polls={polls} setPolls={setPolls}/>} 
+      />
+      <Route 
+        path="/poll/:id" 
+        element={<PollPage polls={polls} />} 
       />
       <Route path = "/login"
         element = {<Login />}
