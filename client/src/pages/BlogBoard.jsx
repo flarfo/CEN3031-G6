@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BlogPost from '../components/BlogPost'; 
+import BlogPost from '../components/BlogPost';
 import { toast } from 'react-toastify';
 
-const BlogBoard = ({posts, setPosts}) => {
+const BlogBoard = ({ posts, setPosts }) => {
   const [newPost, setNewPost] = useState('');
   const [postTitle, setPostTitle] = useState('');
   const [postDate, setPostDate] = useState('');
-  const [postColor, setPostColor] = useState('#ffeb3b');
+  const [postTags, setPostTags] = useState('');
+  const [postAuthor, setPostAuthor] = useState(''); // State for author
   const [isInputVisible, setInputVisible] = useState(false);
 
   const navigate = useNavigate();
@@ -21,27 +22,25 @@ const BlogBoard = ({posts, setPosts}) => {
           'Content-Type': 'application/json'
         }),
       };
-  
+
       try {
         const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, requestOptions);
         const data = await response.json();
-        console.log(data.message);
-
         if (!data.length) return;
 
-        for (let i = 0; i < data.length; i++) {
-          data[i] = { 
+        data.forEach((post, i) => {
+          data[i] = {
             id: i,
-            title: data[i].title, 
-            text: data[i].text, 
-            date: data[i].date,
-            color: data[i].color 
+            title: post.title,
+            text: post.text,
+            date: post.date,
+            tags: post.tags || [],
+            author: post.author || 'Anonymous', // Default to 'Anonymous' if no author
           };
-        }
+        });
 
         setPosts(data);
-      }
-      catch (err) {
+      } catch (err) {
         console.log(err);
       }
     };
@@ -54,23 +53,25 @@ const BlogBoard = ({posts, setPosts}) => {
   };
 
   const handlePostClick = (post) => {
-    navigate(`/blog/${post.id}`); // Correctly using the post ID
+    navigate(`/blog/${post.id}`);
   };
 
   const handleAddPost = async () => {
-    if (newPost.trim() !== '' && postDate !== '' && postTitle.trim() !== '') {
-      const newPostEntry = { 
-        id: posts.length, // Use the current length of the posts array as ID
-        title: postTitle, 
-        text: newPost, 
-        date: postDate, 
-        color: postColor 
+    if (newPost.trim() !== '' && postDate !== '' && postTitle.trim() !== '' && postAuthor.trim() !== '') {
+      const newPostEntry = {
+        id: posts.length,
+        title: postTitle,
+        text: newPost,
+        date: postDate,
+        tags: postTags.split(',').map(tag => tag.trim()),
+        author: postAuthor, // Include the author in the post data
       };
       setPosts((prevPosts) => [...prevPosts, newPostEntry]);
       setNewPost('');
       setPostTitle('');
       setPostDate('');
-      setPostColor('#ffeb3b');
+      setPostTags('');
+      setPostAuthor(''); // Reset the author input
       setInputVisible(false);
 
       sendPostToServer(newPostEntry);
@@ -80,31 +81,37 @@ const BlogBoard = ({posts, setPosts}) => {
   };
 
   const sendPostToServer = async (postData) => {
-    try{
+    try {
       const requestOptions = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id: postData.id, title: postData.title, text: postData.text, date: postData.date, color: postData.color })
+        body: JSON.stringify({
+          id: postData.id,
+          title: postData.title,
+          text: postData.text,
+          date: postData.date,
+          tags: postData.tags,
+          author: postData.author, // Include the author when sending to the server
+        })
       };
-      
+
       const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, requestOptions);
       const data = await response.json();
-      if (!response.ok){
-        toast.error(data.message || 'error sending post to server')
-        console.log(data.message)
+      if (!response.ok) {
+        toast.error(data.message || 'Error sending post to server');
+        console.log(data.message);
       }
     } catch (error) {
       console.error("Error: ", error);
       toast.error("Error posting to server: ", error);
     }
-    
   };
 
   return (
     <div className="blog-board-container mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2">
         <button className="back-button bg-blue-500 text-white py-2 px-4 rounded" onClick={goBack}>
           Back
         </button>
@@ -112,10 +119,12 @@ const BlogBoard = ({posts, setPosts}) => {
           Add Post
         </button>
       </div>
-      <h1 className="text-3xl text-center font-bold mb-6">Blog Posts</h1>
+
+      {/* Adjusted margin for less space between title and navbar */}
+      <h1 className="text-3xl text-center font-bold mb-4">Blog Posts</h1>
 
       {isInputVisible && (
-        <div className="input-container mb-4">
+        <div className="input-container mb-6">
           <input
             type="text"
             value={postTitle}
@@ -138,10 +147,18 @@ const BlogBoard = ({posts, setPosts}) => {
               className="date-input border border-gray-300 rounded p-2 w-full"
             />
             <input
-              type="color"
-              value={postColor}
-              onChange={(e) => setPostColor(e.target.value)}
-              className="color-input border border-gray-300 rounded p-2"
+              type="text"
+              value={postTags}
+              onChange={(e) => setPostTags(e.target.value)}
+              placeholder="Enter tags (comma separated)"
+              className="tags-input border border-gray-300 rounded p-2 w-full"
+            />
+            <input
+              type="text"
+              value={postAuthor}
+              onChange={(e) => setPostAuthor(e.target.value)}
+              placeholder="Enter author name"
+              className="author-input border border-gray-300 rounded p-2 w-full"
             />
           </div>
           <button className="submit-post-button bg-blue-500 text-white py-2 px-4 rounded" onClick={handleAddPost}>
@@ -150,9 +167,26 @@ const BlogBoard = ({posts, setPosts}) => {
         </div>
       )}
 
-      <div className="posts-container">
+      {/* Blog Posts Layout */}
+      <div className="posts-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post, index) => (
-          <BlogPost key={index} post={post} onClick={() => handlePostClick(post)} />
+          <div key={index} className="post-card bg-white shadow-md rounded-lg overflow-hidden">
+            <img src="https://via.placeholder.com/600x300" alt="Post" className="w-full h-40 object-cover" />
+            <div className="p-4">
+              <h2 className="text-xl font-bold text-gray-800">{post.title}</h2>
+              <p className="text-gray-600 text-sm">Posted on: {post.date}</p>
+              <p className="text-gray-600 text-sm">By: {post.author}</p> {/* Display the author */}
+              <p className="text-gray-700 mt-2">{post.text.slice(0, 100)}...</p>
+              <div className="tags mt-2">
+                {post.tags.map((tag, idx) => (
+                  <span key={idx} className="tag bg-blue-100 text-blue-700 px-2 py-1 text-xs rounded-full mr-2">{tag}</span>
+                ))}
+              </div>
+              <button className="read-more mt-4 bg-blue-500 text-white py-2 px-4 rounded" onClick={() => handlePostClick(post)}>
+                Read More
+              </button>
+            </div>
+          </div>
         ))}
       </div>
     </div>
