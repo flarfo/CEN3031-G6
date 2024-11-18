@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { json, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BlogPost from '../components/BlogPost'; 
 import { toast } from 'react-toastify';
 
@@ -25,6 +25,7 @@ const BlogBoard = ({posts, setPosts}) => {
       try {
         const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, requestOptions);
         const data = await response.json();
+        console.log(data.message);
 
         if (!data.length) return;
 
@@ -56,7 +57,7 @@ const BlogBoard = ({posts, setPosts}) => {
     navigate(`/blog/${post.id}`); // Correctly using the post ID
   };
 
-  const handleAddPost = () => {
+  const handleAddPost = async () => {
     if (newPost.trim() !== '' && postDate !== '' && postTitle.trim() !== '') {
       const newPostEntry = { 
         id: posts.length, // Use the current length of the posts array as ID
@@ -78,16 +79,27 @@ const BlogBoard = ({posts, setPosts}) => {
     }
   };
 
-  const sendPostToServer = (postData) => {
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ id: postData.id, title: postData.title, text: postData.text, date: postData.date, color: postData.color })
-    };
+  const sendPostToServer = async (postData) => {
+    try{
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: postData.id, title: postData.title, text: postData.text, date: postData.date, color: postData.color })
+      };
+      
+      const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, requestOptions);
+      const data = await response.json();
+      if (!response.ok){
+        toast.error(data.message || 'error sending post to server')
+        console.log(data.message)
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+      toast.error("Error posting to server: ", error);
+    }
     
-    fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, requestOptions);
   };
 
   return (
