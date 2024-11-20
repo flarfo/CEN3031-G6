@@ -37,6 +37,14 @@ const SignUp = () => {
             });
             return;
         }
+        if (password === username) {
+            console.log("PASSWORD AND USER MATCH!!!!");
+            return;
+        }
+
+        const cleanUser = username.trim();
+        const cleanEmail = email.trim();
+        const cleanPass = password.trim();
 
         try {
             const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/auth/signup`, {
@@ -44,7 +52,7 @@ const SignUp = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, email, password }),
+                body: JSON.stringify({username: cleanUser, email: cleanEmail, password: cleanPass}),
             });
 
                        
@@ -53,6 +61,7 @@ const SignUp = () => {
             const data = await response.json();
 
             if (response.ok) {
+                console.log("THIS IS THE PASSWORD: ", cleanPass, ".")
                 setPassword('');
                 setUsername('');
                 setConfirmPassword('');

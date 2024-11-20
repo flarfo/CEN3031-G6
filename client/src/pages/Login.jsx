@@ -7,7 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation
@@ -25,27 +25,43 @@ const Login = () => {
     }
 
     // Simulate login check
-    if (email === 'user@example.com' && password === 'password123') {
-      toast.success('Login successful!', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+    try {
+      const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/auth/login`, {
+        method: 'POST',  // Correct method for login
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email, password
+        }),
       });
-    } else {
-      toast.error('Invalid email or password', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+                
+      console.log('Response:', response);
+      console.log('Response Status:', response.status);
+      const data = await response.json();
+
+
+      console.log(data);
+      if (response.ok) {
+        if (data)
+        setEmail('');
+        toast.success('Login successful!', {
+            position: 'top-center',
+        });
+         
+          
+      } else {
+          toast.error(data.message || 'Error during sign-up.', {
+              position: 'top-center',
+          });
+      }
+  } catch (error) {
+      console.error('Error:', error);
+      toast.error('An error occurred. Please try again.', {
+          position: 'top-center',
       });
-    }
+    };
+    
   };
 
   return (
