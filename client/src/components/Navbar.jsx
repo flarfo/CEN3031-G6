@@ -35,6 +35,11 @@ export const Navbar = () => {
                   >Blog
                   </NavLink>
                 <NavLink
+                  to="/calendar"
+                  className={linkClass}
+                  >Calendar
+                  </NavLink>
+                <NavLink
                   to="/login"
                   className={linkClass}
                   >Login

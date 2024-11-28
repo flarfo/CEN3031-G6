@@ -5,7 +5,8 @@ import BlogBoard from './pages/BlogBoard';
 import BlogPostPage from './pages/BlogPostPage';
 import MainLayout from './layouts/MainLayout';
 import Login from './pages/Login';
-import SignUp from './pages/SignUp'
+import SignUp from './pages/SignUp';
+import EventCalendar from './pages/Calendar';
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -27,6 +28,9 @@ function App() {
       <Route path ='/sign-up' 
       element = {<SignUp />}
       />
+      <Route path='/calendar' 
+      element={<EventCalendar />} /> 
+
     </Route>
     )
   )
