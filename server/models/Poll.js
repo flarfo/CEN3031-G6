@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+<<<<<<< HEAD
 const { format } = require('date-fns');
 
 const pollSchema = new mongoose.Schema({
@@ -81,3 +82,25 @@ module.exports = mongoose.model('Poll', pollSchema);
 // });
 
 // module.exports = mongoose.model('Poll', pollSchema);
+=======
+
+const optionSchema = new mongoose.Schema({
+    options: String,
+    votes: {
+        type: Number,
+        default: 0
+    }
+});
+
+const pollSchema = new mongoose.Schema({
+    user: {
+        type:  mongoose.Schema.Types.ObjectId, 
+        ref: 'User'
+    },
+    question: String,
+    options: [{}],
+    voted: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+});
+
+module.exports = mongoose.model('Poll', pollSchema)
+>>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b

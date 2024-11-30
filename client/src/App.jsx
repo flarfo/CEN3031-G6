@@ -5,8 +5,12 @@ import BlogBoard from './pages/BlogBoard';
 import BlogPostPage from './pages/BlogPostPage';
 import MainLayout from './layouts/MainLayout';
 import Login from './pages/Login';
+<<<<<<< HEAD
 import SignUp from './pages/SignUp';
 import EventCalendar from './pages/Calendar';
+=======
+import SignUp from './pages/SignUp'
+>>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
 import PollBoard from './pages/PollBoard'
 import PollPage from './pages/PollPage'
 

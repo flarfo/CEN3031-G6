@@ -5,6 +5,7 @@ const Poll = require('../models/Poll');
 // @route GET /polls
 // @access Private
 const getAllPolls = async (req, res) => {
+<<<<<<< HEAD
     try {
         const polls = await Poll.find().lean();
 
@@ -17,12 +18,24 @@ const getAllPolls = async (req, res) => {
         console.error(err);
         res.status(500).json({ message: 'Server error while fetching polls.' });
     }
+=======
+    const polls = await Poll.find().lean();
+
+    if (!polls?.length) {
+        // if no polls exist, return JSON with bad request message
+        return res.status(400).json({ message: 'No polls found.' });
+    }
+
+    // return found polls
+    res.json(polls);
+>>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
 }
 
 // @desc Create new poll
 // @route POST /polls
 // @access Private
 const createNewPoll = async (req, res) => {
+<<<<<<< HEAD
     const { id, title, text, date, tags } = req.body;
 
     // Confirm that data is valid
@@ -60,3 +73,34 @@ const createNewPoll = async (req, res) => {
 }
 
 module.exports = { getAllPolls, createNewPoll };
+=======
+    const { id, question, options, date, color } = req.body;
+
+    // Confirm that data is valid
+    if (!id || !question || !options || !date) {
+        // if missing required information, return JSON with bad request message
+        return res.status(400).json({ message: 'ID, question, options, and date fields are required.' });
+    }
+
+    // Check for duplicate information
+    const duplicate = await Poll.findOne({ question }).lean().exec();
+    
+    if (duplicate) {
+        // if duplicate, return JSON with conflict message
+        return res.status(409).json({ message: 'Duplicate poll.' });
+    }
+    
+    const pollObject = { id, question, options, date, color };
+    // Create and store the new poll
+    const poll = await Poll.create(pollObject);
+    
+    if (poll) {
+        res.status(201).json({ message: `New poll '${question}' created.` });
+    }
+    else {
+        res.status(400).json({ message: 'Invalid poll data received.' });
+    }
+}
+
+module.exports = { getAllPolls, createNewPoll };
+>>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
