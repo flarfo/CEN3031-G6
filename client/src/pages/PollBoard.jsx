@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-<<<<<<< HEAD
 import { useNavigate } from 'react-router-dom';
 import Poll from '../components/Poll';
 import { toast } from 'react-toastify';
@@ -10,17 +9,6 @@ const PollBoard = ({ polls, setPolls }) => {
   const [pollDate, setPollDate] = useState('');
   const [pollTags, setPollTags] = useState('');
   const [pollAuthor, setPollAuthor] = useState(''); // State for author
-=======
-import { json, useNavigate } from 'react-router-dom';
-import Poll from '../components/Poll'; 
-import { toast } from 'react-toastify';
-
-const PollBoard = ({polls, setPolls}) => {
-  const [newPoll, setNewPoll] = useState('');
-  const [pollQuestion, setPollQuestion] = useState('');
-  const [pollDate, setPollDate] = useState('');
-  const [pollColor, setPollColor] = useState('#ffeb3b');
->>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
   const [isInputVisible, setInputVisible] = useState(false);
 
   const navigate = useNavigate();
@@ -34,7 +22,6 @@ const PollBoard = ({polls, setPolls}) => {
           'Content-Type': 'application/json'
         }),
       };
-<<<<<<< HEAD
 
       try {
         const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/polls`, requestOptions);
@@ -54,28 +41,6 @@ const PollBoard = ({polls, setPolls}) => {
 
         setPolls(data);
       } catch (err) {
-=======
-  
-      try {
-        const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, requestOptions);
-        const data = await response.json();
-
-        if (!data.length) return;
-
-        for (let i = 0; i < data.length; i++) {
-          data[i] = { 
-            id: i,
-            title: data[i].title, 
-            text: data[i].text, 
-            date: data[i].date,
-            color: data[i].color 
-          };
-        }
-
-        setPolls(data);
-      }
-      catch (err) {
->>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
         console.log(err);
       }
     };
@@ -88,7 +53,6 @@ const PollBoard = ({polls, setPolls}) => {
   };
 
   const handlePollClick = (poll) => {
-<<<<<<< HEAD
     navigate(`/poll/${poll.id}`);
   };
 
@@ -108,25 +72,6 @@ const PollBoard = ({polls, setPolls}) => {
       setPollDate('');
       setPollTags('');
       setPollAuthor(''); // Reset the author input
-=======
-    navigate(`/polls/${poll.id}`); // Correctly using the poll ID
-  };
-
-  const handleAddPoll = () => {
-    if (newPoll.trim() !== '' && pollDate !== '' && pollQuestion.trim() !== '') {
-      const newPollEntry = {
-        id: polls.length, // Use the current length of the polls array as ID
-        question: pollQuestion, 
-        options: newPoll,       ////
-        date: pollDate, 
-        color: pollColor 
-      };
-      setPolls((prevPolls) => [...prevPolls, newPollEntry]);
-      setNewPoll('');
-      setPollQuestion('');
-      setPollDate('');
-      setPollColor('#ffeb3b');
->>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
       setInputVisible(false);
 
       sendPollToServer(newPollEntry);
@@ -135,7 +80,6 @@ const PollBoard = ({polls, setPolls}) => {
     }
   };
 
-<<<<<<< HEAD
   const sendPollToServer = async (pollData) => {
     try {
       const requestOptions = {
@@ -198,78 +142,12 @@ const PollBoard = ({polls, setPolls}) => {
             className="poll-input border border-gray-300 rounded p-2 w-full"
           />
           <div className="poll-options flex space-x-2 mb-2">
-=======
-  const sendPollToServer = (pollData) => {
-    const requestOptions = {
-      method: 'poll',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ id: pollData.id, question: pollData.question, options: pollData.options, date: pollData.date, color: pollData.color })
-    };
-    
-    fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, requestOptions);
-  };
-
-  return (
-    <div className="blog-board-container mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
-        <button className="back-button bg-blue-500 text-white py-2 px-4" onClick={goBack}>
-          Back
-        </button>
-        <button className="add-poll-button bg-green-500 text-white py-2 px-4 rounded" onClick={() => setInputVisible(!isInputVisible)}>
-          Add poll
-        </button>
-      </div>
-      <h1 className="text-3xl text-center font-bold mb-6">Polls</h1>
-
-      {isInputVisible && (
-        <div className="input-container mb-4">
-          <input
-            type="text"
-            value={pollQuestion}
-            onChange={(e) => setPollQuestion(e.target.value)}
-            placeholder="Poll Question"
-            rows="3"
-            className="poll-question-input border border-gray-300 rounded p-2 mb-2 w-full"
-          />
-          <textarea
-            value={newPoll[polls.length++]}
-            onChange={(e) => setNewPoll(e.target.value)}
-            placeholder="Option 1"
-            rows="1"
-            className="poll-input border border-gray-300 rounded p-2 w-full"
-          />
-          <textarea
-            value={newPoll[polls.length++]}
-            onChange={(e) => setNewPoll(e.target.value)}
-            placeholder="Option 2"
-            rows="1"
-            className="poll-input border border-gray-300 rounded p-2 w-full"
-          />
-          <textarea
-            value={newPoll[polls.length++]}
-            onChange={(e) => setNewPoll(e.target.value)}
-            placeholder="Option 3"
-            rows="1"
-            className="poll-input border border-gray-300 rounded p-2 w-full"
-          />
-          <textarea
-            value={newPoll[polls.length++]}
-            onChange={(e) => setNewPoll(e.target.value)}
-            placeholder="Option 4"
-            rows="1"
-            className="poll-input border border-gray-300 rounded p-2 w-full"
-          />
-          <div set="poll-options flex space-x-2 mb-2">
->>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
             <input
               type="date"
               value={pollDate}
               onChange={(e) => setPollDate(e.target.value)}
               className="date-input border border-gray-300 rounded p-2 w-full"
             />
-<<<<<<< HEAD
             {/* <input
               type="text"
               value={pollTags}
@@ -283,13 +161,6 @@ const PollBoard = ({polls, setPolls}) => {
               onChange={(e) => setPollAuthor(e.target.value)}
               placeholder="Enter author name"
               className="author-input border border-gray-300 rounded p-2 w-full"
-=======
-            <input
-              type="color"
-              value={pollColor}
-              onChange={(e) => setPollColor(e.target.value)}
-              className="color-input border border-gray-300 rounded p-2"
->>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
             />
           </div>
           <button className="submit-poll-button bg-blue-500 text-white py-2 px-4 rounded" onClick={handleAddPoll}>
@@ -298,7 +169,6 @@ const PollBoard = ({polls, setPolls}) => {
         </div>
       )}
 
-<<<<<<< HEAD
       {/* Polls Layout */}
 
       <div className="polls-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -322,19 +192,8 @@ const PollBoard = ({polls, setPolls}) => {
           </div>
         ))}
       </div> 
-=======
-      <div className="polls-container">
-        {polls.map((poll, index) => (
-          <Poll key={index} poll={poll} onClick={() => handlePollClick(poll)} />
-        ))}
-      </div>
->>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
     </div>
   );
 };
 
-<<<<<<< HEAD
 export default PollBoard;
-=======
-export default PollBoard;
->>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
