@@ -137,7 +137,7 @@ const PollBoard = ({ polls, setPolls }) => {
           <textarea
             value={newPoll}
             onChange={(e) => setNewPoll(e.target.value)}
-            placeholder="Write a poll..."
+            placeholder="Enter poll options (comma separated)"
             rows="4"
             className="poll-input border border-gray-300 rounded p-2 w-full"
           />
@@ -148,13 +148,13 @@ const PollBoard = ({ polls, setPolls }) => {
               onChange={(e) => setPollDate(e.target.value)}
               className="date-input border border-gray-300 rounded p-2 w-full"
             />
-            <input
+            {/* <input
               type="text"
               value={pollTags}
               onChange={(e) => setPollTags(e.target.value)}
               placeholder="Enter tags (comma separated)"
               className="tags-input border border-gray-300 rounded p-2 w-full"
-            />
+            /> */}
             <input
               type="text"
               value={pollAuthor}
