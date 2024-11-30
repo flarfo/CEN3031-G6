@@ -35,14 +35,11 @@ export const Navbar = () => {
                   >Blog
                   </NavLink>
                 <NavLink
-<<<<<<< HEAD
                   to="/calendar"
                   className={linkClass}
                   >Calendar
                   </NavLink>
                 <NavLink
-=======
->>>>>>> 4067cb5721d36dcec2b084dcc15dc88e2dcfa60b
                   to="/poll-board"
                   className={linkClass}
                   >Polls
