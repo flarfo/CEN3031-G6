@@ -31,9 +31,9 @@ const BlogBoard = ({ posts, setPosts }) => {
         data.forEach((post, i) => {
           data[i] = {
             id: i,
-            title: post.title,
-            text: post.text,
-            date: post.date,
+            title: post.title || 'Untitled Post',
+            text: post.text || 'No description available',
+            date: post.date || 'Unknown Date',
             tags: post.tags || [],
             author: post.author || 'Anonymous', // Default to 'Anonymous' if no author
           };
@@ -59,7 +59,7 @@ const BlogBoard = ({ posts, setPosts }) => {
   const handleAddPost = async () => {
     if (newPost.trim() !== '' && postDate !== '' && postTitle.trim() !== '' && postAuthor.trim() !== '') {
       const newPostEntry = {
-        id: posts.length,
+        id: posts.length + 1,
         title: postTitle,
         text: newPost,
         date: postDate,
@@ -105,7 +105,9 @@ const BlogBoard = ({ posts, setPosts }) => {
       }
     } catch (error) {
       console.error("Error: ", error);
-      toast.error("Error posting to server: ", error);
+      // toast.error("Error posting to server: ", error);
+      toast.error(`Error posting to server: ${error.message}`);
+
     }
   };
 
@@ -168,6 +170,7 @@ const BlogBoard = ({ posts, setPosts }) => {
       )}
 
       {/* Blog Posts Layout */}
+
       <div className="posts-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post, index) => (
           <div key={index} className="post-card bg-white shadow-md rounded-lg overflow-hidden">
@@ -188,7 +191,7 @@ const BlogBoard = ({ posts, setPosts }) => {
             </div>
           </div>
         ))}
-      </div>
+      </div> 
     </div>
   );
 };

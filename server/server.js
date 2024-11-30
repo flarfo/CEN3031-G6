@@ -28,6 +28,7 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 
 app.use('/', require('./routes/root'));
 app.use('/events', require('./routes/eventRoutes'));
+app.use('/polls', require('./routes/pollRoutes'));
 app.use('/auth', require('./routes/authRoutes')); // for all things authetication for login /signup
 
 // If reached, requested resource not found (or not implemented) - send Error 404

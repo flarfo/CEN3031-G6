@@ -26,7 +26,8 @@ const createNewEvent = async (req, res) => {
     const { id, title, text, date, tags } = req.body;
 
     // Confirm that data is valid
-    if (!id || !title || !text || !date) {
+    // if (!id || !title || !text || !date) {
+    if (id === undefined || !title || !text || !date) {
         return res.status(400).json({ message: 'ID, title, text, and date fields are required.' });
     }
 
