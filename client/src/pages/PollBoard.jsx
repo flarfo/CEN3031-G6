@@ -68,7 +68,7 @@ const PollBoard = ({ polls, setPolls }) => {
   };
 
   const handlePollClick = (poll) => {
-    navigate(`/poll/${poll.id}`);
+    navigate(`/polls/${poll.id}`);
   };
 
   const handleAddPoll = async () => {

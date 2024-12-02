@@ -76,6 +76,8 @@ const voteOnPoll = async (req, res) => {
 
     const { optionIndex, voterId } = req.body;
 
+    console.log(voterId)
+
     try {
         const poll = await Poll.findOne({ id: pollId });
         // const poll = await polls.findOne({ id: 0 });
@@ -111,7 +113,10 @@ const voteOnPoll = async (req, res) => {
         // if (typeof poll.votes[optionIndex] !== 'number') {
         //     poll.votes[optionIndex] = 0;
         // }
+        console.log(optionIndex)
         poll.votes[optionIndex] += 1;
+
+        console.log(poll.votes)
         
 
         // Add the voter to the list
