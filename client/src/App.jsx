@@ -11,6 +11,8 @@ import PollBoard from './pages/PollBoard'
 import PollPage from './pages/PollPage'
 
 function App() {
+  localStorage.setItem('voterID', 'guest');
+
   const [posts, setPosts] = useState([]);
 
   const [polls, setPolls] = useState([]);
@@ -32,7 +34,7 @@ function App() {
       />
       <Route 
         path="/poll/:id" 
-        element={<PollPage polls={polls} />} 
+        element={<PollPage polls={polls} setPolls={setPolls}/>} 
       />
       <Route path = "/login"
         element = {<Login />}

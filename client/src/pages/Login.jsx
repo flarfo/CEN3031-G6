@@ -44,6 +44,9 @@ const Login = () => {
       console.log(data);
       if (response.ok) {
         if (data)
+          // Store token and voterID in localStorage (or sessionStorage)
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('voterID', data.voterID);  // Store userID
         setEmail('');
         toast.success('Login successful!', {
             position: 'top-center',

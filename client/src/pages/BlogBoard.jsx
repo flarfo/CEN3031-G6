@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BlogPost from '../components/BlogPost';
+// import BlogPost from '../components/BlogPost';
 import { toast } from 'react-toastify';
 
 const BlogBoard = ({ posts, setPosts }) => {
@@ -46,7 +46,7 @@ const BlogBoard = ({ posts, setPosts }) => {
     };
 
     getExistingPosts();
-  }, []);
+  }, [setPosts]);
 
   const goBack = () => {
     navigate('/');
@@ -59,7 +59,7 @@ const BlogBoard = ({ posts, setPosts }) => {
   const handleAddPost = async () => {
     if (newPost.trim() !== '' && postDate !== '' && postTitle.trim() !== '' && postAuthor.trim() !== '') {
       const newPostEntry = {
-        id: posts.length + 1,
+        id: posts.length,
         title: postTitle,
         text: newPost,
         date: postDate,
@@ -177,7 +177,12 @@ const BlogBoard = ({ posts, setPosts }) => {
             <img src="https://via.placeholder.com/600x300" alt="Post" className="w-full h-40 object-cover" />
             <div className="p-4">
               <h2 className="text-xl font-bold text-gray-800">{post.title}</h2>
-              <p className="text-gray-600 text-sm">Posted on: {post.date}</p>
+              {/* <p className="text-gray-600 text-sm">Posted on: {post.date}</p> */}
+              <p className="text-gray-600 text-sm">Posted on: {new Date(post.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}</p>
               <p className="text-gray-600 text-sm">By: {post.author}</p> {/* Display the author */}
               <p className="text-gray-700 mt-2">{post.text.slice(0, 100)}...</p>
               <div className="tags mt-2">
