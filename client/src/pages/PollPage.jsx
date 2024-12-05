@@ -51,9 +51,9 @@ const PollPage = ({ polls, setPolls }) => {
         body: JSON.stringify({ optionIndex, voterId }),
       });
 
-      if (voterId === 'guest') {
-        toast.error('Please log in before voting.');
-      }
+      // if (voterId === 'guest') {
+      //   toast.error('Please log in before voting.');
+      // }
   
       if (!response.ok) {
         const error = await response.json();
@@ -106,7 +106,7 @@ const PollPage = ({ polls, setPolls }) => {
    
             <li key={index} className="mb-2">
               <button
-                disabled={hasVoted} 
+                // disabled={hasVoted} 
                 className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                 onClick={() => handleVote(poll.id, index)}
               >
@@ -150,7 +150,7 @@ const PollPage = ({ polls, setPolls }) => {
         {/* <p className="text-lg text-gray-700">{poll.text}</p> */}
 
         <div className="flex justify-between items-center mb-4">
-          <span className="text-gray-500 text-sm">Voted: {toString(hasVoted)}</span> 
+          {/* <span className="text-gray-500 text-sm">Voted: {toString(hasVoted)}</span>  */}
           {/* <span className="text-gray-700 text-sm">{poll.author || 'Anonymous'}</span> */}
         </div>
       </div>

@@ -91,6 +91,7 @@ const voteOnPoll = async (req, res) => {
         // Check if the user has already voted
         if (poll.voters.includes(voterId)) {
             console.log(poll)
+            console.log('You have already voted!')
             return res.status(400).json({ message: 'You have already voted!' });
         }
 
@@ -103,7 +104,7 @@ const voteOnPoll = async (req, res) => {
         // Validate the option index
         if (voterId === 'guest') {
             console.log(poll)
-            return res.status(400).json({ message: 'Please log in.' });
+            return res.status(400).json({ message: 'Please log in before voting.' });
         }
 
 
