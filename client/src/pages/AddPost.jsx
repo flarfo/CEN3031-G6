@@ -10,7 +10,7 @@ const AddPost = ({ user, setPosts, posts }) => {
   const [postTags, setPostTags] = useState('');
   const [image, setImage] = useState(null);
   const [crop, setCrop] = useState({ aspect: 600 / 300 });
-  const [croppedImage, setCroppedImage] = useState(null);
+//  const [croppedImage, setCroppedImage] = useState(null);
 
   const navigate = useNavigate();
 

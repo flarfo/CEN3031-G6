@@ -14,7 +14,7 @@ const ProfilePage = ({ user, setUser }) => {
     } else {
       fetchUserPosts(); // Fetch posts if user exists
     }
-  }, [user, navigate]);
+  }); //[user, navigate]);
 
   // Fetch user's posts
   const fetchUserPosts = async () => {
