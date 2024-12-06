@@ -58,11 +58,7 @@ const Calendar = () => {
         }
       ]
     }),
-    onBeforeEventRender: args => {
-      if (args.data.backColor) {
-        args.data.backColor = args.data.backColor; // Ensure background color is preserved
-      }
-    }
+
   };
 
   const editEvent = async (e) => {

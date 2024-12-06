@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BlogPost from '../components/BlogPost';
 
 const BlogBoard = ({ posts, setPosts, user }) => {
   const navigate = useNavigate();
