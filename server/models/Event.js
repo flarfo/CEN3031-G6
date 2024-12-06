@@ -26,6 +26,11 @@ const eventSchema = new mongoose.Schema({
         type: [String], // An array of tags (could be a list of categories/keywords)
         required: false,
         default: [] // Optional: default to an empty array if no tags are specified
+    },
+    author: {
+        type: String,
+        required: false,
+        maxlength: 200 
     }
 });
 

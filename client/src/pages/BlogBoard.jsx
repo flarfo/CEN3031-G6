@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BlogPost from '../components/BlogPost';
+import { toast } from 'react-toastify';
+// import BlogPost from '../components/BlogPost';
 
 const BlogBoard = ({ posts, setPosts, user }) => {
   const navigate = useNavigate();
@@ -78,7 +79,11 @@ const BlogBoard = ({ posts, setPosts, user }) => {
             <img src="https://via.placeholder.com/600x300" alt="Post" className="w-full h-40 object-cover" />
             <div className="p-4">
               <h2 className="text-xl font-bold text-gray-800">{post.title}</h2>
-              <p className="text-gray-600 text-sm">Posted on: {post.date}</p>
+              <p className="text-gray-600 text-sm">Posted on: {new Date(post.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}</p>
               <p className="text-gray-600 text-sm">By: {post.author}</p>
               <p className="text-gray-700 mt-2">{post.text.slice(0, 100)}...</p>
               <div className="tags mt-2">

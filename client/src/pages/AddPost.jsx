@@ -4,7 +4,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { toast } from 'react-toastify';
 
-const AddPost = ({ user, setPosts }) => {
+const AddPost = ({ user, setPosts, posts }) => {
   const [postTitle, setPostTitle] = useState('');
   const [postContent, setPostContent] = useState('');
   const [postTags, setPostTags] = useState('');
@@ -33,6 +33,7 @@ const AddPost = ({ user, setPosts }) => {
     }
 
     const newPost = {
+      id: posts.length,
       title: postTitle,
       text: postContent,
       date: new Date().toISOString().slice(0, 10),

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const BlogPostPage = ({ posts }) => {
+const BlogPostPage = ({ user, posts, setPosts }) => {
   const { id } = useParams(); // Get the post ID from the URL
   const navigate = useNavigate();
 
@@ -25,12 +26,43 @@ const BlogPostPage = ({ posts }) => {
     navigate('/blog-board');
   };
 
-  // Navigate to the edit page
-  const edit = () => {
-    navigate(`/edit/${post.id}`); // Assuming you have an edit page route
+  // Delete the current blog post
+  // const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, requestOptions);
+  const deletePost = async () => {
+    if (user?.username !== post.author){
+      console.log('You are not the post author.')
+      toast.error('You are not the post author.')
+      return;
+    }
+
+    try {
+      // Send a DELETE request to the backend to delete the post
+      const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/events`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: post.id }),  // Send the event ID in the request body
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete the post');
+      }
+
+      // If successful, remove the post from the state
+      setPosts(posts.filter((p) => p.id !== post.id));
+    
+      // Navigate back to the blog board
+      navigate('/blog-board');
+
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    // alert('There was an error deleting the post. Please try again later.', error);
+    alert(error);
+  }
   };
 
-  // Render the buttons (Back and Edit)
+  // Render the buttons (Back and Delete)
   const renderButtons = () => (
     <div className='flex space-x-2 mb-6'>
       <button
@@ -40,10 +72,10 @@ const BlogPostPage = ({ posts }) => {
         Back
       </button>
       <button
-        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-        onClick={edit}
+        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        onClick={deletePost}
       >
-        Edit
+        Delete
       </button>
     </div>
   );

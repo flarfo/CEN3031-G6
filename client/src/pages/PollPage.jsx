@@ -2,10 +2,11 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 // import PollBoard from './PollBoard';
 import { toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.min.css';
 // import { getUserFromToken } from '../utils/auth'; // Import the utility
 
 
-const PollPage = ({ polls, setPolls }) => {
+const PollPage = ({ user, polls, setPolls }) => {
   const voterId = localStorage.getItem('voterID') || 'guest'; // Replace with real user ID logic///////////////
   const { id } = useParams(); // Get the poll ID from the URL
   const navigate = useNavigate();
@@ -34,11 +35,6 @@ const PollPage = ({ polls, setPolls }) => {
     navigate('/poll-board');
   };
 
-  // Navigate to the edit page
-  const edit = () => {
-    navigate(`/edit/${poll.id}`); // Assuming you have an edit page route
-  };
-
 
   const handleVote = async (pollId, optionIndex) => {
   
@@ -54,10 +50,14 @@ const PollPage = ({ polls, setPolls }) => {
       // if (voterId === 'guest') {
       //   toast.error('Please log in before voting.');
       // }
+
+      console.log('error.message')
   
       if (!response.ok) {
         const error = await response.json();
-        toast.error(error.message || 'Failed to vote');
+        console.error(error.message)
+        const message = error.message
+        toast.error(message || 'Failed to vote');
         return;
       }
   
@@ -75,7 +75,44 @@ const PollPage = ({ polls, setPolls }) => {
   };
 
 
-  // Render the buttons (Back and Edit)
+  // Delete the current poll
+  const deletePoll = async () => {
+    if (user?.username !== poll.author){
+      console.log('You are not the poll author.')
+      toast.error('You are not the poll author.')
+      return;
+    }
+
+
+    try {
+      // Send a DELETE request to the backend to delete the poll
+      const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/polls`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: poll.id }),  // Send the poll ID in the request body
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete the poll');
+      }
+
+      // If successful, remove the poll from the state
+      setPolls(polls.filter((p) => p.id !== poll.id));
+    
+      // Navigate back to the poll board
+      navigate('/poll-board');
+
+  } catch (error) {
+    console.error('Error deleting poll:', error);
+    // alert('There was an error deleting the poll. Please try again later.', error);
+    alert(error);
+  }
+  };
+
+
+  // Render the buttons (Back and Delete)
   const renderButtons = () => (
     <div className='flex space-x-2 mb-6'>
       <button
@@ -85,10 +122,10 @@ const PollPage = ({ polls, setPolls }) => {
         Back
       </button>
       <button
-        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-        onClick={edit}
+        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        onClick={deletePoll}
       >
-        Edit
+        Delete
       </button>
     </div>
   );

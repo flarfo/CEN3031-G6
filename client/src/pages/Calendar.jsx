@@ -13,7 +13,7 @@ const styles = {
   }
 };
 
-const Calendar = () => {
+const Calendar = ({ user }) => {
   const [calendar, setCalendar] = useState(null);
   const [events, setEvents] = useState([]);
   const [startDate, setStartDate] = useState("2025-10-05");
@@ -35,8 +35,10 @@ const Calendar = () => {
         backColor: eventColor // Set selected color for the event
       };
       
-      calendar.events.add(newEvent);
-      sendEventToServer(newEvent);
+      if (user) {
+        calendar.events.add(newEvent);
+        sendEventToServer(newEvent);
+      }
     },
     onEventClick: async args => {
       await editEvent(args.e);

@@ -92,6 +92,7 @@ const voteOnPoll = async (req, res) => {
         if (poll.voters.includes(voterId)) {
             console.log(poll)
             console.log('You have already voted!')
+            console.error('You have already voted!')
             return res.status(400).json({ message: 'You have already voted!' });
         }
 
@@ -134,5 +135,29 @@ const voteOnPoll = async (req, res) => {
     }
 }
 
-module.exports = { getAllPolls, createNewPoll, voteOnPoll };
+const deletePoll = async (req, res) => {
+    const { id } = req.body;  // Get the poll ID from the request body
+    // const { id } = req.params;  // Get the poll ID from the URL parameters
+  
+    try {
+
+      // Try to find and delete the poll by its ID
+      const deletedPoll = await Poll.deleteOne({ id: id });
+  
+      // If no poll is found, return a 404
+      if (!deletedPoll) {
+        return res.status(404).json({ message: 'Poll not found' });
+      }
+
+      const deletedPollObject = deletedPoll.toObject ? deletedPoll.toObject() : deletedPoll;
+  
+      res.status(200).json({ message: 'Poll deleted successfully', event: deletedPollObject });
+    } catch (error) {
+        console.log(error)
+        console.error('Error deleting poll:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+  };
+
+module.exports = { getAllPolls, createNewPoll, voteOnPoll, deletePoll };
 

@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 // import Poll from '../components/Poll';
 import { toast } from 'react-toastify';
 
-const PollBoard = ({ polls, setPolls }) => {
+const PollBoard = ({ user, polls, setPolls }) => {
   const [newPoll, setNewPoll] = useState('');
   const [pollTitle, setPollTitle] = useState('');
   const [pollDate, setPollDate] = useState('');
-  const [pollAuthor, setPollAuthor] = useState(''); // State for author
+  // const [pollAuthor, setPollAuthor] = useState(''); // State for author
   const [isInputVisible, setInputVisible] = useState(false);
   // const [pollOptions, setPollOptions] = useState([]);
   // const [pollVotes, setPollVotes] = useState([]);
@@ -72,10 +72,12 @@ const PollBoard = ({ polls, setPolls }) => {
   };
 
   const handleAddPoll = async () => {
+    
+    if (!user) {                   // Redirect user to login if not logged in
+      navigate('/login'); 
+    } 
 
-    if (newPoll.trim() !== '' && pollDate !== '' && pollTitle.trim() !== '' && pollAuthor.trim() !== '') {
-      // const optionsArray = newPoll.split(',').map(option => option.trim());
-      // const votesArray = new Array(optionsArray.length).fill(0); // Initialize votes to 0
+    if (newPoll.trim() !== '' && pollDate !== '' && pollTitle.trim() !== '') {
 
       const optionsArray = newPoll.split(',').map(option => option.trim());
       const votesArray = []; // Initialize votes to 0
@@ -88,13 +90,14 @@ const PollBoard = ({ polls, setPolls }) => {
         votes: votesArray,
         voters: votersArray,
         date: pollDate,
-        author: pollAuthor, // Include the author in the poll data
+        author: user?.username || "Anonymous" // Include the author in the poll data
       };
+
       setPolls((prevPolls) => [...prevPolls, newPollEntry]);
       setNewPoll('');
       setPollTitle('');
       setPollDate('');
-      setPollAuthor(''); // Reset the author input
+      // setPollAuthor(''); // Reset the author input
       setInputVisible(false);
 
       sendPollToServer(newPollEntry);
@@ -190,13 +193,13 @@ const PollBoard = ({ polls, setPolls }) => {
               placeholder="Enter tags (comma separated)"
               className="tags-input border border-gray-300 rounded p-2 w-full"
             /> */}
-            <input
+            {/* <input
               type="text"
               value={pollAuthor}
               onChange={(e) => setPollAuthor(e.target.value)}
               placeholder="Enter author name"
               className="author-input border border-gray-300 rounded p-2 w-full"
-            />
+            /> */}
           </div>
           <button className="submit-poll-button bg-blue-500 text-white py-2 px-4 rounded" onClick={handleAddPoll}>
             Submit
