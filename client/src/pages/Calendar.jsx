@@ -28,13 +28,15 @@ const Calendar = () => {
       calendar.clearSelection();
       if (!modal.result) { return; }
       const newEvent = {
-        start: args.start,
-        end: args.end,
         id: DayPilot.guid(),
+        start: args.start.toDate(), // Convert to UTC
+        end: args.end.toDate(), 
         text: modal.result,
         backColor: eventColor // Set selected color for the event
       };
+      
       calendar.events.add(newEvent);
+      sendEventToServer(newEvent);
     },
     onEventClick: async args => {
       await editEvent(args.e);
@@ -70,6 +72,61 @@ const Calendar = () => {
     if (!modal.result) { return; }
     e.data.text = modal.result;
     calendar.events.update(e);
+  };
+
+  // GET request to server, update posts array on completion
+  useEffect(() => {
+    const getExistingEvents = async () => {
+      const requestOptions = {
+        method: 'GET',
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        }),
+      };
+
+      try {
+        const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/calendar`, requestOptions);
+        if (!response.ok) return;
+        
+        const data = await response.json();
+        if (!data.length) return;
+        
+        data.forEach((event, i) => {
+          data[i] = {
+            id: i,
+            start: event.start,
+            end: event.end,
+            text: event.text,
+            backColor: event.backColor
+          };
+        });
+        setEvents(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getExistingEvents();
+  }, []);
+
+  const sendEventToServer = async (eventData) => {
+    try {
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData)
+      };
+
+      const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/calendar`, requestOptions);
+      const data = await response.json();
+      if (!response.ok) {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+    }
   };
 
   useEffect(() => {

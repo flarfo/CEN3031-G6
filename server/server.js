@@ -33,7 +33,9 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 // Routes
 app.use('/', require('./routes/root'));
 app.use('/events', require('./routes/eventRoutes'));
-app.use('/auth', require('./routes/authRoutes'));
+
+app.use('/calendar', require('./routes/calendarRoutes'));
+app.use('/auth', require('./routes/authRoutes')); // for all things authetication for login /signup
 
 // 404 Error
 app.all('*', (req, res) => {
