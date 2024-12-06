@@ -102,7 +102,8 @@ const PollBoard = ({ user, polls, setPolls }) => {
 
       sendPollToServer(newPollEntry);
     } else {
-      toast.error('Please fill in all fields!');
+      // toast.error('Please fill in all fields!');
+      alert('Please fill in all fields!')
     }
   };
 
@@ -127,13 +128,15 @@ const PollBoard = ({ user, polls, setPolls }) => {
       const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/polls`, requestOptions);
       const data = await response.json();
       if (!response.ok) {
-        toast.error(data.message || 'Error sending poll to server');
+        // toast.error(data.message || 'Error sending poll to server');
         console.log(data.message);
+        alert(data.message || 'Error sending poll to server')
       }
     } catch (error) {
       console.error("Error: ", error);
       // toast.error("Error posting to server: ", error);//////////////////////////////
-      toast.error(`Error posting to server: ${error.message}`);
+      // toast.error(`Error posting to server: ${error.message}`);
+      alert(`Error posting to server: ${error.message}`)
 
     }
   };

@@ -85,7 +85,7 @@ const voteOnPoll = async (req, res) => {
         if (!poll) {
             console.log(pollId)
             console.log(poll)
-            return res.status(404).json({ message: 'Poll not found1.' });
+            return res.status(404).json({ message: '1.' });
         }
 
         // Check if the user has already voted

@@ -9,16 +9,16 @@ const PollPage = ({ user, polls, setPolls }) => {
   const { id } = useParams(); // Get the poll ID from the URL
   const navigate = useNavigate();
 
-  // Find the specific poll using the ID from the params             ////////////// Important
+  // Find the specific poll using the ID from the params             
   const poll = polls.find((p) => p.id === parseInt(id));
 
   // Handle the case when no poll is found
   if (!poll) {
     console.log("Poll ID from params:", id);
-    return <div className="text-center mt-10 text-red-500">Poll not found2.</div>;
+    return <div className="text-center mt-10 text-red-500">Poll not found.</div>;
   }
 
-  const hasVoted = poll.voters.includes(voterId);   //////////////////CHANGE
+  const hasVoted = poll.voters.includes(voterId);  
   console.log(hasVoted)
 
   // Format the date as "Month Day, Year"
@@ -37,8 +37,9 @@ const PollPage = ({ user, polls, setPolls }) => {
   const handleVote = async (pollId, optionIndex) => {
     if (Date.now() > new Date(poll.date).getTime()) {
       console.error('Poll has ended.')
-      toast.error('Poll has ended.');
-        return;
+      // toast.error('Poll has ended.');
+      alert('Poll has ended.')
+      return;
     }
 
 
@@ -61,7 +62,8 @@ const PollPage = ({ user, polls, setPolls }) => {
         const error = await response.json();
         console.error(error.message)
         const message = error.message
-        toast.error(message || 'Failed to vote');
+        // toast.error(message || 'Failed to vote');
+        alert(message || 'Failed to vote')
         return;
       }
   
@@ -74,7 +76,8 @@ const PollPage = ({ user, polls, setPolls }) => {
     } catch (err) {
       console.error(err);
       // toast.error('An error occurred while voting.');
-      toast.error(`An error occurred while voting: ${err.message}`);
+      // toast.error(`An error occurred while voting: ${err.message}`);
+      alert(`An error occurred while voting: ${err.message}`)
     }
   };
 
@@ -83,7 +86,8 @@ const PollPage = ({ user, polls, setPolls }) => {
   const deletePoll = async () => {
     if (user?.username !== poll.author){
       console.log('You are not the poll author.')
-      toast.error('You are not the poll author.')
+      // toast.error('You are not the poll author.')
+      alert('You are not the poll author.')
       return;
     }
 

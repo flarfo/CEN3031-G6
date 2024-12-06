@@ -31,7 +31,8 @@ const BlogPostPage = ({ user, posts, setPosts }) => {
   const deletePost = async () => {
     if (user?.username !== post.author){
       console.log('You are not the post author.')
-      toast.error('You are not the post author.')
+      // toast.error('You are not the post author.')
+      alert('You are not the post author.')
       return;
     }
 
