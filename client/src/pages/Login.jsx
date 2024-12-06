@@ -27,6 +27,7 @@ const Login = ({ setUser }) => {
         if (token) {
           console.log('Token received:', token);
           localStorage.setItem('token', token); // Store token in localStorage
+          localStorage.setItem('voterID', data.voterID);  // Store userID
           const decodedUser = jwtDecode(token); // Decode the token
           setUser(decodedUser); // Set user state
 
@@ -40,10 +41,12 @@ const Login = ({ setUser }) => {
         }
       } else {
         console.error('Login failed:', data.message);
+        alert('Login failed')
         setLoading(false); // Stop loading on failure
       }
     } catch (error) {
       console.error('Error during login:', error);
+      alert('Error during login')
       setLoading(false); // Stop loading on error
     }
   };
@@ -100,13 +103,13 @@ const Login = ({ setUser }) => {
         </form>
 
         <div className="flex justify-between items-center mt-4">
-          <button
+          {/* <button
             type="button"
             className="text-blue-500 hover:underline"
             onClick={() => console.log('Forgot password functionality coming soon!')}
           >
             Forgot Password?
-          </button>
+          </button> */}
           <NavLink to="/sign-up" className="text-blue-500 hover:underline">
             Sign Up
           </NavLink>
