@@ -101,13 +101,13 @@ const Login = ({ setUser }) => {
         </form>
 
         <div className="flex justify-between items-center mt-4">
-          <button
+          {/* <button
             type="button"
             className="text-blue-500 hover:underline"
             onClick={() => console.log('Forgot password functionality coming soon!')}
           >
             Forgot Password?
-          </button>
+          </button> */}
           <NavLink to="/sign-up" className="text-blue-500 hover:underline">
             Sign Up
           </NavLink>

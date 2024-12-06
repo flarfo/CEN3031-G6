@@ -36,7 +36,7 @@ const pollSchema = new mongoose.Schema({
 
 // Optional: Add a method to format the date in a specific way
 pollSchema.methods.formatDate = function () {
-    return format(this.date, 'yyyy-MM-dd'); // Example format
+    return format(this.date, 'yyyy-MM-dd HH:mm:ss'); // Example format
 };
 
 module.exports = mongoose.model('Poll', pollSchema);

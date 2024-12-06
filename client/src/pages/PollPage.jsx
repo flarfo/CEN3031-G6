@@ -1,9 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-// import PollBoard from './PollBoard';
 import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.min.css';
-// import { getUserFromToken } from '../utils/auth'; // Import the utility
+
 
 
 const PollPage = ({ user, polls, setPolls }) => {
@@ -37,7 +35,13 @@ const PollPage = ({ user, polls, setPolls }) => {
 
 
   const handleVote = async (pollId, optionIndex) => {
-  
+    if (Date.now() > new Date(poll.date).getTime()) {
+      console.error('Poll has ended.')
+      toast.error('Poll has ended.');
+        return;
+    }
+
+
     try {
       const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/polls/${pollId}/vote`, {
         method: 'POST',
@@ -178,7 +182,7 @@ const PollPage = ({ user, polls, setPolls }) => {
 
         {/* Poll Date and Author */}
         <div className="flex justify-between items-center mb-4">
-          <span className="text-gray-500 text-sm">{formattedDate}</span>
+          <span className="text-gray-500 text-sm">Poll end date: {formattedDate}</span>
           <span className="text-gray-700 text-sm">{poll.author || 'Anonymous'}</span>
         </div>
 

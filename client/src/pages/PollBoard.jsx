@@ -180,6 +180,8 @@ const PollBoard = ({ user, polls, setPolls }) => {
               className="poll-input border border-gray-300 rounded p-2 w-full"
           />
           <div className="poll-options flex space-x-2 mb-2">
+
+            <div>Poll end date:</div>
             <input
               type="date"
               value={pollDate}
@@ -219,8 +221,7 @@ const PollBoard = ({ user, polls, setPolls }) => {
             <img src="https://via.placeholder.com/600x300" alt="Poll" className="w-full h-40 object-cover" />
             <div className="p-4">
               <h2 className="text-xl font-bold text-gray-800">{poll.title}</h2>
-              {/* <p className="text-gray-600 text-sm">Poll start date: {poll.date}</p> */} 
-              <p className="text-gray-600 text-sm">Poll start date: {new Date(poll.date).toLocaleDateString('en-US', {
+              <p className="text-gray-600 text-sm">Poll end date: {new Date(poll.date).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',

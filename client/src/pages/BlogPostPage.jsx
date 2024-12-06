@@ -99,7 +99,7 @@ const BlogPostPage = ({ user, posts, setPosts }) => {
 
         {/* Post Date and Author */}
         <div className="flex justify-between items-center mb-4">
-          <span className="text-gray-500 text-sm">{formattedDate}</span>
+          <span className="text-gray-500 text-sm">Posted on: {formattedDate}</span>
           <span className="text-gray-700 text-sm">{post.author || 'Anonymous'}</span>
         </div>
 
