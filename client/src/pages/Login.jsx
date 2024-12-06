@@ -1,75 +1,68 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate, NavLink } from 'react-router-dom';
+import {jwtDecode} from 'jwt-decode'; // Correct import for version 4.0.0
 
-const Login = () => {
+const Login = ({ setUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); // Track loading state
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
-    // Basic validation
-    if (!email || !password) {
-      toast.error('Email and password are required', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      return;
-    }
-
-    // Simulate login check
     try {
-      const response = await fetch(`${process.env.REACT_APP_DEV_API_URL}/auth/login`, {
-        method: 'POST',  // Correct method for login
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email, password
-        }),
+      const response = await fetch('http://localhost:3500/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Include credentials for cookies
+        body: JSON.stringify({ email, password }),
       });
-                
-      console.log('Response:', response);
-      console.log('Response Status:', response.status);
+
       const data = await response.json();
-
-
-      console.log(data);
+      console.log('Login Response:', data); // Debugging response
       if (response.ok) {
-        if (data)
-          // Store token and voterID in localStorage (or sessionStorage)
-          localStorage.setItem('token', data.token);
+        const token = data.token;
+        if (token) {
+          console.log('Token received:', token);
+          localStorage.setItem('token', token); // Store token in localStorage
           localStorage.setItem('voterID', data.voterID);  // Store userID
-        setEmail('');
-        toast.success('Login successful!', {
-            position: 'top-center',
-        });
-         
-          
+          const decodedUser = jwtDecode(token); // Decode the token
+          setUser(decodedUser); // Set user state
+
+          // Redirect to home after a slight delay
+          setTimeout(() => {
+            navigate('/'); // Redirect to home
+          }, 1000);
+        } else {
+          console.error('No token in response');
+          setLoading(false); // Stop loading on failure
+        }
       } else {
-          toast.error(data.message || 'Error during sign-up.', {
-              position: 'top-center',
-          });
+        console.error('Login failed:', data.message);
+        setLoading(false); // Stop loading on failure
       }
-  } catch (error) {
-      console.error('Error:', error);
-      toast.error('An error occurred. Please try again.', {
-          position: 'top-center',
-      });
-    };
-    
+    } catch (error) {
+      console.error('Error during login:', error);
+      setLoading(false); // Stop loading on error
+    }
   };
+
+  if (loading) {
+    // Loading screen with spinner
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="text-center">
+          <div className="loader border-t-4 border-blue-500 rounded-full w-16 h-16 animate-spin"></div>
+          <p className="mt-4 text-lg font-semibold text-gray-700">Redirecting to Home...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <ToastContainer />
       <div className="w-full max-w-lg p-10 space-y-8 bg-white shadow-lg rounded-lg">
         <h2 className="text-3xl font-bold text-center">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -111,11 +104,11 @@ const Login = () => {
           <button
             type="button"
             className="text-blue-500 hover:underline"
-            onClick={() => toast.info('Forgot password functionality coming soon!')}
+            onClick={() => console.log('Forgot password functionality coming soon!')}
           >
             Forgot Password?
           </button>
-          <NavLink to='/sign-up' className='text-blue-500 hover:underline'>
+          <NavLink to="/sign-up" className="text-blue-500 hover:underline">
             Sign Up
           </NavLink>
         </div>
