@@ -60,7 +60,8 @@ const createNewPoll = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error while creating poll.' });
-        toast.error(`Error posting to server1: ${err.message}`);
+        // toast.error(`Error posting to server1: ${err.message}`);
+        alert(`Error posting to server: ${err.message}`)
     }
 }
 

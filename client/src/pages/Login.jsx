@@ -41,10 +41,12 @@ const Login = ({ setUser }) => {
         }
       } else {
         console.error('Login failed:', data.message);
+        alert('Login failed')
         setLoading(false); // Stop loading on failure
       }
     } catch (error) {
       console.error('Error during login:', error);
+      alert('Error during login')
       setLoading(false); // Stop loading on error
     }
   };

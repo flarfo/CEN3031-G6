@@ -72,7 +72,8 @@ const PollPage = ({ user, polls, setPolls }) => {
         prevPolls.map((poll) => (poll.id === pollId ? updatedPoll.poll : poll))
       );
   
-      toast.success('Vote submitted!');
+      // toast.success('Vote submitted!');
+      alert('Vote submitted!')
     } catch (err) {
       console.error(err);
       // toast.error('An error occurred while voting.');

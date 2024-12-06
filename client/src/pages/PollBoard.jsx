@@ -75,6 +75,7 @@ const PollBoard = ({ user, polls, setPolls }) => {
     
     if (!user) {                   // Redirect user to login if not logged in
       navigate('/login'); 
+      return;
     } 
 
     if (newPoll.trim() !== '' && pollDate !== '' && pollTitle.trim() !== '') {

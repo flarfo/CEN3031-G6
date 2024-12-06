@@ -16,25 +16,28 @@ const SignUp = () => {
         // Validation for username
         const usernameRegex = /^[A-Za-z][A-Za-z0-9]*$/;
         if (!usernameRegex.test(username)) {
-            toast.error('Username must start with a letter and contain no special characters.', {
-                position: 'top-center',
-            });
+            // toast.error('Username must start with a letter and contain no special characters.', {
+            //     position: 'top-center',
+            // });
+            alert('Username must start with a letter and contain no special characters.')
             return;
         }
 
         // Password validation
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{10,})/;
         if (!passwordRegex.test(password)) {
-            toast.error('Password must be at least 10 characters long, include at least one uppercase letter, one lowercase letter, and one special character.', {
-                position: 'top-center',
-            });
+            // toast.error('Password must be at least 10 characters long, include at least one uppercase letter, one lowercase letter, and one special character.', {
+            //     position: 'top-center',
+            // });
+            alert('Password must be at least 10 characters long, include at least one uppercase letter, one lowercase letter, and one special character.')
             return;
         }
 
         if (password !== confirmPassword) {
-            toast.error('Passwords do not match.', {
-                position: 'top-center',
-            });
+            // toast.error('Passwords do not match.', {
+            //     position: 'top-center',
+            // });
+            alert('Passwords do not match.')
             return;
         }
         if (password === username) {
@@ -66,23 +69,27 @@ const SignUp = () => {
                 setUsername('');
                 setConfirmPassword('');
                 setEmail('');
-                toast.success('Sign-up successful! Please log in.', {
-                    position: 'top-center',
-                });
+                // toast.success('Sign-up successful! Please log in.', {
+                //     position: 'top-center',
+                // });
+                alert('Sign-up successful! Please log in.')
+
                 setTimeout(() => {
                     navigate('/login');
                 }, 6000); 
                 
             } else {
-                toast.error(data.message || 'Error during sign-up.', {
-                    position: 'top-center',
-                });
+                // toast.error(data.message || 'Error during sign-up.', {
+                //     position: 'top-center',
+                // });
+                alert(data.message || 'Error during sign-up.')
             }
         } catch (error) {
             console.error('Error:', error);
-            toast.error('An error occurred. Please try again.', {
-                position: 'top-center',
-            });
+            // toast.error('An error occurred. Please try again.', {
+            //     position: 'top-center',
+            // });
+            alert('An error occurred. Please try again.')
         }
     };
 
