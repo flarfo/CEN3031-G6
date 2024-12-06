@@ -4,7 +4,7 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { toast } from 'react-toastify';
 
-const AddPost = ({ user, setPosts }) => {
+const AddPost = ({ user, setPosts, posts }) => {
   const [postTitle, setPostTitle] = useState('');
   const [postContent, setPostContent] = useState('');
   const [postTags, setPostTags] = useState('');
@@ -28,11 +28,13 @@ const AddPost = ({ user, setPosts }) => {
 
   const handleAddPost = async () => {
     if (!postTitle || !postContent) {
-      toast.error('Title and content are required.');
+      // toast.error('Title and content are required.');
+      alert('Title and content are required.')
       return;
     }
 
     const newPost = {
+      id: posts.length,
       title: postTitle,
       text: postContent,
       date: new Date().toISOString().slice(0, 10),
@@ -51,13 +53,16 @@ const AddPost = ({ user, setPosts }) => {
 
       if (response.ok) {
         setPosts((prevPosts) => [...prevPosts, newPost]);
-        toast.success('Post added successfully!');
+        // toast.success('Post added successfully!');
+        alert('Post added successfully!')
         navigate('/blog-board');
       } else {
-        toast.error('Failed to add post.');
+        // toast.error('Failed to add post.');
+        alert('Failed to add post.')
       }
     } catch (error) {
-      toast.error('An error occurred while adding the post.');
+      // toast.error('An error occurred while adding the post.');
+      alert('An error occurred while adding the post.')
       console.error('Error:', error);
     }
   };

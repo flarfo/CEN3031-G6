@@ -80,7 +80,7 @@ exports.login = async (req, res) => {
       });
   
       // Add token to the response
-      res.status(200).json({ message: 'Logged in successfully', token });
+      res.status(200).json({ message: 'Logged in successfully', token, voterID: (user._id).toString() });
     } catch (error) {
       res.status(500).json({ message: 'Server error', error: error.message });
     }

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 const BlogBoard = ({ posts, setPosts, user }) => {
   const navigate = useNavigate();
   
@@ -39,9 +40,9 @@ const BlogBoard = ({ posts, setPosts, user }) => {
         data.forEach((post, i) => {
           data[i] = {
             id: i,
-            title: post.title,
-            text: post.text,
-            date: post.date,
+            title: post.title || 'Untitled Post',
+            text: post.text || 'No description available',
+            date: post.date || 'Unknown Date',
             tags: post.tags || [],
             author: post.author || 'Anonymous', // Default to 'Anonymous' if no author
           };
@@ -70,13 +71,18 @@ const BlogBoard = ({ posts, setPosts, user }) => {
       <h1 className="text-3xl text-center font-bold mb-4">Blog Posts</h1>
 
       {/* Blog Posts Layout */}
+
       <div className="posts-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post, index) => (
           <div key={index} className="post-card bg-white shadow-md rounded-lg overflow-hidden">
             <img src="https://via.placeholder.com/600x300" alt="Post" className="w-full h-40 object-cover" />
             <div className="p-4">
               <h2 className="text-xl font-bold text-gray-800">{post.title}</h2>
-              <p className="text-gray-600 text-sm">Posted on: {post.date}</p>
+              <p className="text-gray-600 text-sm">Posted on: {new Date(post.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}</p>
               <p className="text-gray-600 text-sm">By: {post.author}</p>
               <p className="text-gray-700 mt-2">{post.text.slice(0, 100)}...</p>
               <div className="tags mt-2">
@@ -90,7 +96,7 @@ const BlogBoard = ({ posts, setPosts, user }) => {
             </div>
           </div>
         ))}
-      </div>
+      </div> 
     </div>
   );
 };
