@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import EventCalendar from './pages/Calendar';
 import ProfilePage from './pages/ProfilePage';
+import AddPost from './pages/AddPost';
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -22,7 +23,7 @@ function App() {
           method: 'GET',
           credentials: 'include', // Include cookies in the request
         });
-  
+
         if (response.ok) {
           const data = await response.json();
           setUser(data); // Set user state with validated session data
@@ -37,10 +38,9 @@ function App() {
         setLoading(false); // Mark loading as complete
       }
     };
-  
+
     fetchSession();
   }, []);
-  
 
   if (loading) {
     return <div>Loading...</div>; // Display a loading spinner or message
@@ -52,12 +52,13 @@ function App() {
       <div className="content">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/blog-board" element={<BlogBoard posts={posts} setPosts={setPosts} />} />
+          <Route path="/blog-board" element={<BlogBoard posts={posts} setPosts={setPosts} user={user} />} /> {/* Pass user prop */}
           <Route path="/blog/:id" element={<BlogPostPage posts={posts} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/calendar" element={<EventCalendar />} />
           <Route path="/profile" element={<ProfilePage user={user} setUser={setUser} />} />
+          <Route path="/add-post" element={<AddPost user={user} setPosts={setPosts} />} />
         </Routes>
       </div>
     </BrowserRouter>
