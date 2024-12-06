@@ -13,10 +13,20 @@ const styles = {
   }
 };
 
+const getStartOfWeek = () => {
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // Sunday = 0, Monday = 1, ..., Saturday = 6
+  const difference = now.getDate() - dayOfWeek; // Adjust to the most recent Sunday
+  const startOfWeek = new Date(now.setDate(difference));
+  startOfWeek.setHours(0, 0, 0, 0); // Set to the beginning of the day
+  return startOfWeek.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+};
+
+
 const Calendar = ({ user }) => {
   const [calendar, setCalendar] = useState(null);
   const [events, setEvents] = useState([]);
-  const [startDate, setStartDate] = useState("2025-10-05");
+  const [startDate, setStartDate] = useState(getStartOfWeek());
   const [eventColor, setEventColor] = useState("#3788d8"); // Default event color
 
   const config = {
